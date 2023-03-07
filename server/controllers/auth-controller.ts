@@ -16,7 +16,7 @@ class UserController {
         httpOnly: true,
         maxAge: 14 * 24 * 60 * 60 * 1000,
       });
-      return res.json(userData);
+      return res.status(201).json(userData);
     } catch (e) {
       next(e);
     }
