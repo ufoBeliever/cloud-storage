@@ -2,9 +2,9 @@ import express from "express";
 import authController from "../controllers/auth-controller";
 import { body } from "express-validator";
 
-export const router = express.Router();
+export const authRouter = express.Router();
 
-router.post(
+authRouter.post(
   "/registration",
   body("login").notEmpty().withMessage("Login can't be empty"),
   body("password")
@@ -12,6 +12,6 @@ router.post(
     .withMessage("Password length should be from 10 to 50 symbols"),
   authController.registration
 );
-router.post("/login", authController.login);
-router.post("/logout", authController.logout);
-router.get("/refresh", authController.refresh);
+authRouter.post("/login", authController.login);
+authRouter.post("/logout", authController.logout);
+authRouter.get("/refresh", authController.refresh);

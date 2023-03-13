@@ -3,8 +3,7 @@ import bcrypt from "bcrypt";
 import tokenService from "./token-service";
 import { UserDto } from "../dtos/user-dto";
 import { ApiError } from "../exceptions/api-error";
-import { saveToken } from "../utils";
-import countries from "countries-list";
+import { isCountryCodeValid, saveToken } from "../utils";
 
 class AuthService {
   async registration(
@@ -18,8 +17,9 @@ class AuthService {
     if (candidate) {
       throw ApiError.BadRequest(`User with login ${login} already exists`);
     }
-    if (!(country in countries.countries)) {
-      throw ApiError.BadRequest(`Invalid date code`);
+
+    if (!isCountryCodeValid(country)) {
+      throw ApiError.BadRequest("Invalid country code");
     }
 
     const hashPassword = await bcrypt.hash(password, 10);

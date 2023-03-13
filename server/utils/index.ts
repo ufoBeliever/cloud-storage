@@ -1,3 +1,4 @@
+import { countries } from "countries-list";
 import { UserDto } from "../dtos/user-dto";
 import tokenService from "../service/token-service";
 
@@ -9,4 +10,9 @@ export const saveToken = async (userDto: UserDto) => {
     ...tokens,
     user: userDto,
   };
+};
+
+export const isCountryCodeValid = (country: string) => {
+  if (!country) return true;
+  return country in countries;
 };
