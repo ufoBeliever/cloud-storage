@@ -4,16 +4,32 @@ import tokenService from "./token-service";
 import { UserDto } from "../dtos/user-dto";
 import { ApiError } from "../exceptions/api-error";
 import { saveToken } from "../utils";
+import countries from "countries-list";
 
 class AuthService {
-  async registration(login: string, password: string) {
+  async registration(
+    login: string,
+    password: string,
+    name: string,
+    country: string
+  ) {
     const candidate = await UserModel.findOne({ login });
+
     if (candidate) {
       throw ApiError.BadRequest(`User with login ${login} already exists`);
     }
+    if (!(country in countries.countries)) {
+      throw ApiError.BadRequest(`Invalid date code`);
+    }
 
     const hashPassword = await bcrypt.hash(password, 10);
-    const user = await UserModel.create({ login, password: hashPassword });
+    const user = await UserModel.create({
+      login,
+      password: hashPassword,
+      registrationDate: new Date(),
+      name,
+      country,
+    });
 
     const userDto = new UserDto(user);
     return await saveToken(userDto);

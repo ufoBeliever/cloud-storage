@@ -1,5 +1,5 @@
 import express from "express";
-import userController from "../controllers/auth-controller";
+import authController from "../controllers/auth-controller";
 import { body } from "express-validator";
 
 export const router = express.Router();
@@ -10,8 +10,8 @@ router.post(
   body("password")
     .isLength({ min: 10, max: 50 })
     .withMessage("Password length should be from 10 to 50 symbols"),
-  userController.registration
+  authController.registration
 );
-router.post("/login", userController.login);
-router.post("/logout", userController.logout);
-router.get("/refresh", userController.refresh);
+router.post("/login", authController.login);
+router.post("/logout", authController.logout);
+router.get("/refresh", authController.refresh);
